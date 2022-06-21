@@ -1,8 +1,8 @@
 pipeline {
 	environment {
-        DOCKER_ID = "eazytraining"
+        DOCKER_ID = "fallewi"
         IMAGE_TAG = "${BUILD_NUMBER}"
-	REPOSITORY_NAME = "payment"	
+	REPOSITORY_NAME = "frontend"	
 	}
 	
 agent {
@@ -16,20 +16,19 @@ stages{
 		    steps {
 					script {
 						sh '''
-                            docker build -t $DOCKER_ID/$IMAGE_NAME:$IMAGE_TAG .
+                            docker build -t $DOCKER_ID/$REPOSITORY_NAME:$IMAGE_TAG .
 						'''
 					}
 		    }
 	}
     	stage ('Docker Push sur dockerhub'){
-         agent any
 		    steps {
 
 					script {
 						sh '''
 						   docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
-						   docker push $DOCKER_ID/$IMAGE_NAME:$IMAGE_TAG
-						   docker rmi $DOCKER_ID/$IMAGE_NAME:$IMAGE_TAG
+						   docker push $DOCKER_ID/$REPOSITORY_NAME:$IMAGE_TAG
+						   docker rmi $DOCKER_ID/$REPOSITORY_NAME:$IMAGE_TAG
 						'''
 					}
 		    }
